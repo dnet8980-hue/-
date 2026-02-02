@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+  <meta charset="UTF-8">
+  <title>AutoMarket</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header>
+  <h1 data-kk="Машиналар" data-ru="Автомобили">Машиналар</h1>
+
+  <a href="index.html"
+     data-kk="Басты бет"
+     data-ru="Главная">Басты бет</a>
+
+  <div class="lang-buttons" style="float:right;">
+    <button onclick="setLang('kk')">KZ</button>
+    <button onclick="setLang('ru')">RU</button>
+  </div>
+</header>
+
+<div class="container">
+
+  <!-- Сатып алу / Сату -->
+  <div class="section cards">
+    <div class="card">
+      <h2 data-kk="🚗 Сатып алу" data-ru="🚗 Купить">🚗 Сатып алу</h2>
+      <a class="button" href="sale.html"
+         data-kk="Көру"
+         data-ru="Смотреть">Көру</a>
+    </div>
+
+    <div class="card">
+      <h2 data-kk="📝 Машина сату" data-ru="📝 Продать авто">📝 Машина сату</h2>
+      <a class="button" href="sell.html"
+         data-kk="Сату"
+         data-ru="Продать">Сату</a>
+    </div>
+  </div>
+
+  <!-- Пікірлер -->
+  <div class="section">
+    <h2 data-kk="⭐ Клиенттердің пікірлері"
+        data-ru="⭐ Отзывы клиентов">⭐ Клиенттердің пікірлері</h2>
+
+    <div id="reviewsList" class="cards">
+      <p id="noReviews"
+         data-kk="Әзірге пікір жоқ"
+         data-ru="Пока отзывов нет">Әзірге пікір жоқ</p>
+    </div>
+
+    <h3 data-kk="Пікір қалдыру"
+        data-ru="Оставить отзыв">Пікір қалдыру</h3>
+
+    <form id="reviewForm">
+      <input type="text" id="reviewName"
+             data-kk-placeholder="Атыңыз"
+             data-ru-placeholder="Ваше имя"
+             placeholder="Атыңыз" required>
+
+      <textarea id="reviewText"
+                data-kk-placeholder="Пікіріңіз"
+                data-ru-placeholder="Ваш отзыв"
+                placeholder="Пікіріңіз" required></textarea>
+
+      <button type="button" class="button"
+              data-kk="Жіберу"
+              data-ru="Отправить"
+              onclick="addReview()">Жіберу</button>
+    </form>
+  </div>
+
+  <!-- Банктер -->
+  <div class="section">
+    <h2 data-kk="🏦 Банктер" data-ru="🏦 Банки">🏦 Банктер</h2>
+
+    <div class="cards bank-cards">
+      <div class="card">
+        <a href="https://wa.me/77761874008" target="_blank">
+          <img src="images/kaspi.png">
+          <p>Kaspi – 18% | 5 мин</p>
+        </a>
+      </div>
+
+      <div class="card">
+        <a href="https://wa.me/77761874008" target="_blank">
+          <img src="images/halyk.png">
+          <p>Halyk – 17% | 10 мин</p>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Кредит калькулятор -->
+ <div class="section">
+    <h2 data-kk="💳 Кредит калькулятор"
+        data-ru="💳 Кредитный калькулятор">💳 Кредит калькулятор</h2>
+
+    <input id="price" type="number"
+           data-kk-placeholder="Бағасы ₸"
+           data-ru-placeholder="Цена ₸"
+           placeholder="Бағасы ₸">
+
+    <input id="months" type="number"
+           data-kk-placeholder="Ай саны"
+           data-ru-placeholder="Количество месяцев"
+           placeholder="Ай саны">
+
+    <button class="button"
+            data-kk="Есептеу"
+            data-ru="Рассчитать"
+            onclick="creditCalc()">Есептеу</button>
+
+    <p id="creditResult"></p>
+  </div>
+
+</div>
+<footer>
+  <p>📞 +7 776 187 4008 | WhatsApp | Telegram</p>
+  <iframe src="https://www.google.com/maps?q=Astana&output=embed"
+          width="100%" height="250"></iframe>
+</footer>
+
+<div class="float">
+  <a href="https://wa.me/77761874008">WhatsApp</a>
+  <a class="tg" href="https://t.me/yourchannel">Telegram</a>
+</div>
+
+<!-- ТІЛ АУЫСТЫРУ СКРИПТІ -->
+<script>
+function setLang(lang) {
+  document.querySelectorAll('[data-kk]').forEach(el => {
+    el.textContent = el.getAttribute('data-' + lang);
+  });
+
+  document.querySelectorAll('[data-kk-placeholder]').forEach(el => {
+    el.placeholder = el.getAttribute('data-' + lang + '-placeholder');
+  });
+
+  localStorage.setItem('lang', lang);
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  const lang = localStorage.getItem('lang') || 'kk';
+  setLang(lang);
+});
+</script>
+
+</body><script>
+function addReview() {
+  const name = document.getElementById('reviewName').value.trim();
+  const text = document.getElementById('reviewText').value.trim();
+  const reviewsList = document.getElementById('reviewsList');
+  const noReviews = document.getElementById('noReviews');
+
+  if (!name || !text) {
+    alert("Атыңыз бен пікіріңізді толтырыңыз");
+    return;
+  }
+
+  // "Пікір жоқ" мәтінін өшіру
+  if (noReviews) {
+    noReviews.style.display = "none";
+  }
+
+  const card = document.createElement('div');
+  card.className = 'card';
+
+  card.innerHTML = `
+    <h4>${name}</h4>
+    <p>${text}</p>
+  `;
+
+  reviewsList.appendChild(card);
+
+  // input-тарды тазалау
+  document.getElementById('reviewName').value = '';
+  document.getElementById('reviewText').value = '';
+}
+</script>
+
+
+<script>
+function creditCalc() {
+  const price = parseFloat(document.getElementById('price').value);
+  const months = parseInt(document.getElementById('months').value);
+  const result = document.getElementById('creditResult');
+
+  if (isNaN(price) || isNaN(months) || price <= 0 || months <= 0) {
+    result.textContent = "Барлық мәндерді дұрыс енгізіңіз";
+    return;
+  }
+
+  const yearlyRate = 0.18; // 18%
+  const monthlyRate = yearlyRate / 12;
+
+  const monthlyPayment =
+    (price * monthlyRate) /
+    (1 - Math.pow(1 + monthlyRate, -months));
+
+  result.textContent =
+    "Ай сайынғы төлем: " +
+    Math.round(monthlyPayment).toLocaleString() +
+    " ₸";
+}
+</script>
+</html>
