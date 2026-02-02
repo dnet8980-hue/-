@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+<meta charset="UTF-8">
+<title>Машина сату</title>
+<style>
+body{font-family:Arial,sans-serif;background:#f5f7ff;padding:20px;}
+.container{margin-top:20px;}
+input,button{display:block;width:250px;margin:5px 0;padding:10px;}
+button{background:#7c3aed;color:white;border:none;border-radius:8px;cursor:pointer;}
+.cards{display:flex;flex-wrap:wrap;gap:20px;margin-top:20px;}
+.card{background:white;padding:15px;border-radius:10px;width:250px;box-shadow:0 4px 10px rgba(0,0,0,.1);}
+.card img{width:100%;border-radius:8px;margin-bottom:10px;}
+a{text-decoration:none;color:#2563eb;font-weight:bold;}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Машина сату</h1>
+  <a href="index.html">← Басты бет</a>
+</header>
+
+<div class="container">
+  <form id="sellForm">
+    <input type="text" placeholder="Марка">
+    <input type="text" placeholder="Модель">
+    <input type="number" placeholder="Жылы">
+    <input type="text" placeholder="Қозғалтқыш көлемі (л)">
+    <input type="text" placeholder="Жетегі (AWD/FWD/RWD)">
+    <input type="number" placeholder="Бағасы ₸">
+    <input type="file" id="img" accept="image/*">
+    <button type="button" onclick="submitCar()">Сату</button>
+  </form>
+
+  <h2>Менің сатқан машиналарым</h2>
+  <div id="myCars" class="cards">
+    <p id="noCars">Әзірге машина жоқ</p>
+  </div>
+</div>
+
+<script>
+const sellForm = document.getElementById('sellForm');
+const myCars = document.getElementById('myCars');
+const noCars = document.getElementById('noCars');
+
+// Машиналарды localStorage-тан алу және көрсету
+function renderCars(){
+  const cars = JSON.parse(localStorage.getItem('carsForSale') || '[]');
+  myCars.innerHTML = '';
+  
+  if(cars.length === 0){
+    noCars.style.display = 'block';
+    return;
+  }
+  
+  noCars.style.display = 'none';
+  
+  cars.forEach(car=>{
+    const div = document.createElement('div');
+    div.className = 'card';
+    div.innerHTML = `
+      <img src="${car.img}">
+      <h3>${car.title} ${car.model}</h3>
+      <p>Жылы: ${car.year}</p>
+      <p>Қозғалтқыш: ${car.engine}</p>
+      <p>Жетегі: ${car.drive}</p>
+      <p><b>Бағасы: ${car.price} ₸</b></p>
+    `;
+    myCars.appendChild(div);
+  });
+}
+
+// Машина қосу
+function submitCar(){
+  const title = sellForm[0].value.trim();
+  const model = sellForm[1].value.trim();
+  const year = sellForm[2].value.trim();
+  const engine = sellForm[3].value.trim();
+  const drive = sellForm[4].value.trim();
+  const price = sellForm[5].value.trim();
+  const img = sellForm[6].files[0];
+
+  if(!title || !model || !year || !engine || !drive || !price || !img){
+    alert("Барлық өрістерді толтырыңыз");
+    return;
+  }
+
+  const reader = new FileReader();
+  reader.onload = function(e){
+    const carData = {title, model, year, engine, drive, price, img: e.target.result};
+    let cars = JSON.parse(localStorage.getItem('carsForSale') || '[]');
+    cars.push(carData);
+    localStorage.setItem('carsForSale', JSON.stringify(cars));
+    sellForm.reset();
+    renderCars();
+    alert("Машина сәтті қосылды!");
+  }
+  reader.readAsDataURL(img);
+}
+
+// Алғашқы жүктелгенде машиналарды көрсету
+renderCars();
+</script>
+
+</body>
+</html>

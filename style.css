@@ -1,0 +1,267 @@
+body {
+  font-family: "Times New Roman", serif;
+}
+
+
+body{
+  margin:0;
+  background: linear-gradient(135deg,#f7f7fb,#ece9f7);
+  color:#1a1a1a;
+}
+
+/* ===== HEADER ===== */
+header{
+  background: linear-gradient(135deg,#0f0c29,#302b63,#24243e);
+  color:white;
+  padding:20px 50px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  box-shadow:0 10px 30px rgba(0,0,0,.3);
+}
+
+header h1{
+  margin:0;
+  font-size:28px;
+  letter-spacing:1px;
+}
+
+header a{
+  color:#a200ff;
+  margin-left:20px;
+  text-decoration:none;
+  font-weight:600;
+}
+
+header a:hover{
+  color:rgb(145, 27, 27);
+}
+
+/* ===== LANGUAGE BUTTONS ===== */
+.lang button{
+  background:rgba(73, 33, 148, 0.15);
+  border:1px solid rgba(107, 40, 40, 0.3);
+  color:rgb(88, 82, 45);
+  padding:6px 14px;
+  border-radius:20px;
+  cursor:pointer;
+  margin-left:6px;
+}
+
+.lang button:hover{
+  background:#000000;
+}
+
+/* ===== CONTAINER ===== */
+.container{
+  padding:50px;
+}
+
+/* ===== SECTIONS ===== */
+.section{
+  margin-bottom:80px;
+}
+
+.section h2{
+  font-size:30px;
+  margin-bottom:30px;
+}
+
+/* ===== CARDS ===== */
+.cards{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:30px;
+}
+
+.card,.car{
+  background:rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(10px);
+  padding:25px;
+  border-radius:20px;
+  box-shadow:0 20px 40px rgba(255, 255, 255, 0.1);
+  transition:.4s;
+  position:relative;
+}
+
+.card::before,.car::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  border-radius:20px;
+  background:linear-gradient(135deg,#6d1bb1,#3d1961);
+  opacity:.08;
+}
+
+.card:hover,.car:hover{
+  transform:translateY(-10px);
+  box-shadow:0 30px 60px rgba(255, 255, 255, 0.2);
+}
+
+/* ===== CAR IMAGE ===== */
+.car img{
+  width:100%;
+  border-radius:15px;
+  margin-bottom:15px;
+}
+
+/* ===== BUTTON ===== */
+.button{
+  display:inline-block;
+  margin-top:10px;
+  padding:12px 26px;
+  background:linear-gradient(135deg,#9d4edd,#5a189a);
+  color:white;
+  border:none;
+  border-radius:30px;
+  font-size:15px;
+  font-weight:600;
+  cursor:pointer;
+  box-shadow:0 10px 25px rgba(157,78,221,.4);
+  transition:.3s;
+}
+
+.button:hover{
+  transform:scale(1.05);
+  box-shadow:0 15px 35px rgba(157,78,221,.6);
+}
+
+/* ===== INPUTS ===== */
+input{
+  width:100%;
+  padding:14px 16px;
+  margin-bottom:18px;
+  border-radius:14px;
+  border:1px solid #ddd;
+  font-size:15px;
+}
+
+input:focus{
+  outline:none;
+  border-color:#9d4edd;
+  box-shadow:0 0 0 3px rgba(157,78,221,.2);
+}
+
+/* ===== FOOTER ===== */
+footer{
+  background:linear-gradient(135deg,#0f0c29,#302b63);
+  color:white;
+  padding:40px;
+  text-align:center;
+}
+
+/* ===== FLOAT BUTTONS ===== */
+.float{
+  position:fixed;
+  right:25px;
+  bottom:25px;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  z-index:999;
+}
+
+.float a{
+  background:linear-gradient(135deg,#25D366,#1ebe57);
+  color:white;
+  padding:14px 22px;
+  border-radius:50px;
+  text-decoration:none;
+  font-weight:600;
+  box-shadow:0 10px 25px rgba(17, 0, 248, 0.3);
+}
+
+.float a.tg{
+  background:linear-gradient(135deg,#229ED9,#1c7fb8);
+}
+
+.float a:hover{
+  transform:scale(1.08);
+}
+
+/* ===== MODAL ===== */
+#buyModal > div{
+  animation:pop .4s ease;
+}
+
+@keyframes pop{
+  from{transform:scale(.7);opacity:0}
+  to{transform:scale(1);opacity:1}
+}
+.card::before,
+.car::before{
+  pointer-events: none;
+}
+
+.card, .car{
+  position: relative;
+  z-index: 1;
+}
+
+.button{
+  position: relative;
+  z-index: 2;
+}
+.bank-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.bank-cards .card {
+  flex: 1 1 200px;
+  text-align: center;
+  background: #7108d3;
+  color: rgb(136, 28, 185);
+  border-radius: 10px;
+  padding: 15px;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.bank-cards .card img {
+  width: 100px;
+  height: auto;
+  margin-bottom: 10px;
+}
+
+.bank-cards .card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(255, 255, 255, 0.5);
+}
+
+.bank-cards .card a {
+  color: rgb(255, 255, 255);
+  text-decoration: none;
+}
+.bank-grid {
+    display: flex;
+    flex-direction: column; /* енді банктер тік жолға шығады */
+    gap: 15px; /* банктердің арасын бөлу */
+    margin-top: 15px;
+}
+
+.bank-card {
+    width: 100%; /* әр банк толық енімен шығады */
+    text-align: center;
+    padding: 15px;
+    background: var(--card-bg);
+    border-radius: 10px;
+    text-decoration: none;
+    color: var(--text);
+    border: 1px solid #e5e7eb;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: row; /* иконка мен атауды қатар көрсету үшін */
+    align-items: center;
+    justify-content: flex-start;
+    gap: 15px;
+}
+
+.bank-card i {
+    font-size: 2rem;
+    margin: 0; /* gap арқылы арасы анықталады */
+}
+
+.bank-card div {
+    font-weight: 600;
+}

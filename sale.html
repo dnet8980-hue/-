@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+<meta charset="UTF-8">
+<title>Сатып алу</title>
+
+<style>
+body { font-family: Arial, sans-serif; margin:0; background:#f2f2f2; }
+header { background:#111; color:#fff; padding:15px; display:flex; justify-content:space-between; align-items:center; }
+header a { color:white; text-decoration:none; margin-left:15px; }
+.container { padding:20px; }
+.cards { display:flex; flex-wrap:wrap; gap:20px; }
+.car, .card { background:white; padding:15px; border-radius:10px; width:250px; text-align:center; box-shadow:0 2px 5px rgba(0,0,0,.2); }
+.car img { width:100%; border-radius:10px; }
+.button { background:#111; color:white; border:none; padding:10px; border-radius:5px; cursor:pointer; margin-top:10px; }
+.search-container { text-align:center; margin-bottom:20px; }
+#searchInput { width:80%; max-width:400px; padding:10px; font-size:16px; }
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>Машиналар</h1>
+  <a href="index.html">Басты бет</a>
+</header>
+
+<div class="container">
+
+<div class="search-container">
+  <input id="searchInput" placeholder="Машина іздеу...">
+</div>
+
+<div class="cards" id="carList"></div>
+
+<h2>Карзина</h2>
+<div class="cards" id="cart">
+  <p id="emptyCart">Сіздің карзинаңыз бос</p>
+</div>
+<p id="totalPrice">Жалпы: 0 ₸</p>
+
+</div>
+
+<script>
+// ===== Машиналар =====
+const cars = [
+  { title:"Toyota Camry 2020", price:12000000, chars:"2.5 | Бензин | Автомат", img:"images/cars/camry.jpg" },
+  { title:"Honda Accord 2019", price:11500000, chars:"2.4 | Бензин | Автомат", img:"images/cars/accord.jpg" },
+  { title:"BMW X5 2021", price:25000000, chars:"3.0 | Дизель | Автомат", img:"images/cars/bmw-x5.jpg" },
+  { title:"Mercedes GLE 2020", price:28000000, chars:"3.0 | Бензин | Автомат", img:"images/cars/gle.jpg" },
+  { title:"Toyota Venza 2022", price:13500000, chars:"2.0 | Бензин | Автомат", img:"images/cars/venza.jpg" },
+  { title:"Nissan X-Trail 2018", price:10500000, chars:"2.0 | Бензин | Автомат", img:"images/cars/xtrail.jpg" },
+  { title:"Mazda CX-5 2020", price:14500000, chars:"2.5 | Бензин | Автомат", img:"images/cars/cx5.jpg" },
+  { title:"Kia Sportage 2019", price:12500000, chars:"2.0 | Дизель | Автомат", img:"images/cars/sportage.jpg" },
+  { title:"Hyundai Tucson 2021", price:15000000, chars:"2.4 | Бензин | Автомат", img:"images/cars/tucson.jpg" },
+  { title:"Ford Explorer 2019", price:23000000, chars:"3.0 | Бензин | Автомат", img:"images/cars/explorer.jpg" },
+  { title:"Chevrolet Tahoe 2020", price:26000000, chars:"5.3 | Бензин | Автомат", img:"images/cars/tahoe.jpg" },
+  { title:"Toyota RAV4 2021", price:15500000, chars:"2.5 | Бензин | Автомат", img:"images/cars/rav4.jpg" },
+  { title:"Honda CR-V 2020", price:15000000, chars:"2.4 | Бензин | Автомат", img:"images/cars/crv.jpg" },
+  { title:"BMW X3 2021", price:22000000, chars:"2.0 | Дизель | Автомат", img:"images/cars/bmw-x3.jpg" },
+  { title:"Audi Q7 2020", price:27000000, chars:"3.0 | Бензин | Автомат", img:"images/cars/q7.jpg" },
+
+  // Қосымша Toyota
+  { title:"Toyota RAV4 2024", price:18500000, chars:"2.5 | Бензин | Автомат", img:"images/cars/rav4-2024.jpg" },
+  { title:"Toyota 4Runner 2004", price:8500000, chars:"4.0 | Бензин | Автомат", img:"images/cars/4runner-2004.jpg" },
+  { title:"Toyota Land Cruiser Prado 2022", price:32000000, chars:"4.0 | Бензин | Автомат", img:"images/cars/prado-2022.jpg" },
+  { title:"Toyota Windom MCV20 2001", price:4500000, chars:"2.5 | Бензин | Автомат", img:"images/cars/windom-mcv20-2001.jpg" }
+];
+
+// ===== Карзина =====
+let cart=[];
+const carList=document.getElementById("carList");
+const cartDiv=document.getElementById("cart");
+const totalPrice=document.getElementById("totalPrice");
+const emptyCart=document.getElementById("emptyCart");
+
+// ===== Машиналарды шығару =====
+function renderCars(list=cars){
+ carList.innerHTML="";
+ list.forEach((c,i)=>{
+  carList.innerHTML+=`
+   <div class="car">
+    <img src="${c.img}">
+    <h3>${c.title}</h3>
+    <p>${c.chars}</p>
+    <b>${c.price.toLocaleString()} ₸</b><br>
+    <button class="button" onclick="buyCar(${i})">Сатып алу</button>
+   </div>`;
+ });
+}
+
+// ===== Карзина =====
+function renderCart(){
+ cartDiv.innerHTML="";
+ if(cart.length===0){
+  emptyCart.style.display="block";
+  totalPrice.innerText="Жалпы: 0 ₸";
+  return;
+ }
+ emptyCart.style.display="none";
+ let total=0;
+ cart.forEach((c,i)=>{
+  total+=c.price;
+  cartDiv.innerHTML+=`
+   <div class="card">
+    <h4>${c.title}</h4>
+    <b>${c.price.toLocaleString()} ₸</b><br>
+    <button class="button" onclick="removeFromCart(${i})">Жою</button>
+   </div>`;
+ });
+ totalPrice.innerText="Жалпы: "+total.toLocaleString()+" ₸";
+}
+
+function buyCar(i){
+ cart.push(cars[i]);
+ renderCart();
+ window.open(`https://wa.me/77761874008?text=Мен ${cars[i].title} сатып алғым келеді`);
+}
+
+function removeFromCart(i){
+ cart.splice(i,1);
+ renderCart();
+}
+
+// ===== Іздеу =====
+searchInput.addEventListener("input",()=>{
+ const q=searchInput.value.toLowerCase();
+ renderCars(cars.filter(c=>c.title.toLowerCase().includes(q)));
+});
+
+renderCars();
+renderCart();
+</script>
+
+</body>
+</html>
